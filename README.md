@@ -10,7 +10,7 @@
 
 ### Manual installation
 
-#### iOS
+#### iOS/
 
 1. In XCode, in the project navigator, right click `Libraries` ➜
    `Add Files to [your project's name]`
