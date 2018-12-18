@@ -1,8 +1,9 @@
 # react-native-elice-editor
 
+<!--
 ## Getting started
 
-`$ npm install elice-editor --save`
+`$ npm install elice-editor --save` -->
 
 ### Mostly automatic installation
 
@@ -57,7 +58,7 @@
 ## Usage
 
 ```javascript
-import RNEliceEditor from 'react-native-elice-editor';
+import RNEliceEditor from "react-native-elice-editor";
 
 // TODO: What to do with the module?
 RNEliceEditor;
