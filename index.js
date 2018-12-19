@@ -11,4 +11,4 @@ var EliceEditorProps = {
 
 const RNEliceEditor = requireNativeComponent('RNEliceEditor', EliceEditorProps)
 
-export default RCTEliceEditor
+export default RNEliceEditor
