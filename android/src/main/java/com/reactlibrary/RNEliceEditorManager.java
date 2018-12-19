@@ -8,6 +8,11 @@ import com.facebook.react.views.textinput.ReactTextInputManager;
 
 public class RNEliceEditorManager extends ReactTextInputManager {
     @Override
+    public String getName() {
+        return "RNEliceEditor";
+    }
+
+    @Override
     public ReactEditText createViewInstance(ThemedReactContext context) {
         return new RNEliceEditor(context);
     }
