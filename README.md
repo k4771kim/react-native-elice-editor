@@ -1,10 +1,5 @@
 # react-native-elice-editor
 
-<!--
-## Getting started
-
-`$ npm install elice-editor --save` -->
-
 ### Mostly automatic installation
 
 `$ react-native link react-native-elice-editor`

@@ -1,6 +1,14 @@
+import React from 'react'
+import { requireNativeComponent, TextInputProps } from 'react-native'
+import PropTypes from 'prop-types'
 
-import { NativeModules } from 'react-native';
+var EliceEditorProps = {
+  name: 'RNEliceEditor',
+  propTypes: {
+    ...TextInputProps
+  }
+}
 
-const { RNEliceEditor } = NativeModules;
+const RNEliceEditor = requireNativeComponent('RNEliceEditor', EliceEditorProps)
 
-export default RNEliceEditor;
+export default RCTEliceEditor

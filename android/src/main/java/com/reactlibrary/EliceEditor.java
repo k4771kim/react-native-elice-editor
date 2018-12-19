@@ -17,12 +17,10 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class ShaderEditor extends AppCompatEditText {
+public class EliceEditor extends AppCompatEditText{
 	public interface OnTextChangedListener {
 		void onTextChanged(String text);
 	}
@@ -40,7 +38,7 @@ public class ShaderEditor extends AppCompatEditText {
 					"do|for|while|if|else|in|out|inout|float|int|void|bool|true|false|" +
 					"lowp|mediump|highp|precision|invariant|discard|return|mat2|mat3|" +
 					"mat4|vec2|vec3|vec4|ivec2|ivec3|ivec4|bvec2|bvec3|bvec4|sampler2D|" +
-					"samplerCube|struct|gl_Vertex|gl_FragCoord|gl_FragColor)\\b");
+					"samplerCube|struct|gl_Vertex|gl_FragCoord|gl_FragColor|print|)\\b");
 	private static final Pattern PATTERN_BUILTINS = Pattern.compile(
 			"\\b(radians|degrees|sin|cos|tan|asin|acos|atan|pow|" +
 					"exp|log|exp2|log2|sqrt|inversesqrt|abs|sign|floor|ceil|fract|mod|" +
@@ -92,12 +90,12 @@ public class ShaderEditor extends AppCompatEditText {
 		return text.replaceAll("[^\\x0A\\x09\\x20-\\x7E]", "");
 	}
 
-	public ShaderEditor(Context context) {
+	public EliceEditor(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public ShaderEditor(Context context, AttributeSet attrs) {
+	public EliceEditor(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
@@ -239,7 +237,9 @@ public class ShaderEditor extends AppCompatEditText {
 
 		return idx;
 	}
+	public void setReturnKeyType(String returnKeyType) {
 
+	}
 	private void init(Context context) {
 		setHorizontallyScrolling(true);
 
