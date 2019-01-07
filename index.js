@@ -2,23 +2,47 @@ import React, { cloneElement, Component } from 'react'
 import {
   TextInput,
   UIManager,
+  Text,
   requireNativeComponent,
   TouchableWithoutFeedback,
   TextInputProps
 } from 'react-native'
 import PropTypes from 'prop-types'
 const RNEliceEditor = requireNativeComponent('RNEliceEditor')
-const textInputRef = React.createRef()
-export default class extends Component {
+export default class extends TextInput {
+  static propTypes = {
+    ...TextInput.propTypes
+  }
+
+  static defaultProps = {}
+
   render () {
-    return (
+    const wrapper = (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.refs.textInputRef.focus()
+          this.focus()
         }}
-      >
-        <RNEliceEditor {...this.props} ref='textInputRef' />
-      </TouchableWithoutFeedback>
+      />
+    )
+    const wrapperProps = {
+      ...TouchableWithoutFeedback.props,
+      style: { flex: 1 }
+    }
+    const props = {
+      ...TextInput.props,
+      ...this.props,
+      ref: this._setNativeRef
+    }
+
+    return cloneElement(
+      wrapper,
+      wrapper.props,
+      <RNEliceEditor
+        onFocus={() => {
+          console.log(this)
+        }}
+        {...props}
+      />
     )
   }
 }
