@@ -7,8 +7,7 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw":
-      "react-native-elice-editor@git://github.com/k4771kim/react-native-elice-editor.git",
+    "raw": "react-native-elice-editor@git://github.com/k4771kim/react-native-elice-editor.git",
     "name": "react-native-elice-editor",
     "escapedName": "react-native-elice-editor",
     "rawSpec": "git://github.com/k4771kim/react-native-elice-editor.git",
@@ -16,22 +15,25 @@
     "fetchSpec": "git://github.com/k4771kim/react-native-elice-editor.git",
     "gitCommittish": null
   },
-  "_requiredBy": ["#USER", "/"],
-  "_resolved":
-    "git://github.com/k4771kim/react-native-elice-editor.git#777333a9ee0462d007d752fd68d6dd5cee07a67a",
-  "_spec":
-    "react-native-elice-editor@git://github.com/k4771kim/react-native-elice-editor.git",
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git://github.com/k4771kim/react-native-elice-editor.git#777333a9ee0462d007d752fd68d6dd5cee07a67a",
+  "_spec": "react-native-elice-editor@git://github.com/k4771kim/react-native-elice-editor.git",
   "_where": "/Users/kimbogyun/Develop/ReactNative/elice-mobile",
   "author": "",
   "bundleDependencies": false,
   "deprecated": false,
   "description": "<!-- ## Getting started",
-  "keywords": ["react-native"],
+  "keywords": [
+    "react-native"
+  ],
   "license": "",
   "main": "index.js",
   "name": "react-native-elice-editor",
   "peerDependencies": {
-    "react-native": "^0.41.2",
+    "react-native": "^0.57.7",
     "react-native-windows": "0.41.0-rc.1"
   },
   "scripts": {
