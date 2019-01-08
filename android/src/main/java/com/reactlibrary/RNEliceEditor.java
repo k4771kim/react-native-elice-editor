@@ -46,7 +46,7 @@ public class RNEliceEditor extends ReactEditText{
     private static final Pattern PATTERN_BOOLEAN= Pattern.compile("\\b(True|False|None)\\b");
     private static final Pattern PATTERN_NUM = Pattern.compile("(?:\\b(?=\\d)|\\B(?=\\.))(?:0[bo])?(?:(?:\\d|0x[\\da-f])[\\da-f]*\\.?\\d*|\\.\\d+)(?:e[+-]?\\d+)?j?\\b/i");
     private static final Pattern PATTERN_OPER = Pattern.compile("[-+%=]=?|!=|\\*\\*?=?|\\/\\/?=?|<[<=>]?|>[=>]?|[&|^~]/");
-    private static final Pattern PATTERN_PUNCTUATION= Pattern.compile("[{}[\\];(),.:]");
+    private static final Pattern PATTERN_PUNCTUATION= Pattern.compile("/[{}[/];(),.:]/");
 
 
     private final Handler updateHandler = new Handler();
