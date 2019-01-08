@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 const RNEliceEditor = requireNativeComponent('RNEliceEditor')
-export default class extends Component {
+export default class extends TextInput implements TextInputProps {
   static propTypes = {
     ...TextInput.propTypes
   }
@@ -17,11 +17,25 @@ export default class extends Component {
   constructor (props) {
     super(props)
   }
+  _lastNativeSelection = {
+    start: 0,
+    end: 0
+  }
   focus = () => {
     console.log(this)
     this.textInput.focus()
   }
-
+  onSelectionChange (event) {
+    this.props.onSelectionChangeEvent &&
+      this.props.onSelectionChangeEvent(event)
+    if (!this.textInput) {
+      return
+    }
+    this._lastNativeSelection = event.nativeEvent.selection
+    if (this.props.selection || this.props.selectionState) {
+      this.forceUpdate()
+    }
+  }
   render () {
     const wrapper = (
       <TouchableWithoutFeedback
@@ -45,19 +59,6 @@ export default class extends Component {
       this._lastNativeText = text
       this.forceUpdate()
     }
-    const _onSelectionChange = event => {
-      this.props.onSelectionChange && this.props.onSelectionChange(event)
-
-      if (!this.textInput) {
-        return
-      }
-
-      this._lastNativeSelection = event.nativeEvent.selection
-
-      if (this.props.selection || this.props.selectionState) {
-        this.forceUpdate()
-      }
-    }
     const props = {
       ...TextInputProps,
       ...this.props
@@ -67,8 +68,8 @@ export default class extends Component {
       wrapper.props,
       <RNEliceEditor
         ref={textInput => (this.textInput = textInput)}
-        onSelectionChange={_onSelectionChange}
         onChange={_onChange}
+        onSelectionChange={this.onSelectionChange.bind(this)}
         {...props}
       />
     )
