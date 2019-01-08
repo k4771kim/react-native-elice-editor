@@ -27,37 +27,27 @@ public class RNEliceEditor extends ReactEditText{
     }
 
     private static final Pattern PATTERN_LINE = Pattern.compile(
-            ".*\\n");
-    private static final Pattern PATTERN_NUMBERS = Pattern.compile(
-            "\\b(\\d*[.]?\\d+)\\b");
+			".*\\n");
+	private static final Pattern PATTERN_NUMBERS = Pattern.compile("\\b(\\d*[.]?\\d+)\\b");
+
     private static final Pattern PATTERN_PREPROCESSOR = Pattern.compile(
-            "^[\t ]*(#define|#undef|#if|#ifdef|#ifndef|#else|#elif|#endif|" +
-                    "#error|#pragma|#extension|#version|#line)\\b",
-            Pattern.MULTILINE);
-    private static final Pattern PATTERN_KEYWORDS = Pattern.compile(
-            "\\b(attribute|const|uniform|varying|break|continue|" +
-                    "do|for|while|if|else|in|out|inout|float|int|void|bool|true|false|" +
-                    "lowp|mediump|highp|precision|invariant|discard|return|mat2|mat3|" +
-                    "mat4|vec2|vec3|vec4|ivec2|ivec3|ivec4|bvec2|bvec3|bvec4|sampler2D|" +
-                    "samplerCube|struct|gl_Vertex|gl_FragCoord|gl_FragColor|print|)\\b");
-    private static final Pattern PATTERN_BUILTINS = Pattern.compile(
-            "\\b(radians|degrees|sin|cos|tan|asin|acos|atan|pow|" +
-                    "exp|log|exp2|log2|sqrt|inversesqrt|abs|sign|floor|ceil|fract|mod|" +
-                    "min|max|clamp|mix|step|smoothstep|length|distance|dot|cross|" +
-                    "normalize|faceforward|reflect|refract|matrixCompMult|lessThan|" +
-                    "lessThanEqual|greaterThan|greaterThanEqual|equal|notEqual|any|all|" +
-                    "not|dFdx|dFdy|fwidth|texture2D|texture2DProj|texture2DLod|" +
-                    "texture2DProjLod|textureCube|textureCubeLod)\\b");
-    private static final Pattern PATTERN_COMMENTS = Pattern.compile(
-            "/\\*(?:.|[\\n\\r])*?\\*/|//.*");
-    private static final Pattern PATTERN_TRAILING_WHITE_SPACE = Pattern.compile(
-            "[\\t ]+$",
-            Pattern.MULTILINE);
-    private static final Pattern PATTERN_INSERT_UNIFORM = Pattern.compile(
-            "^([ \t]*uniform.+)$",
-            Pattern.MULTILINE);
-    private static final Pattern PATTERN_ENDIF = Pattern.compile(
-            "(#endif)\\b");
+            "\\b(and|as|assert|async|await|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|print|raise|return|try|while|with|yield)\\b");
+
+	private static final Pattern PATTERN_ENDIF  = Pattern.compile(
+			"(?:f|rf|fr)(?:(\"\"\"|''')[\\s\\S]+?\\1|(\"|')(?:\\\\.|(?!\\2)[^\\\\\\r\\n])*\\2)/i");
+	private static final Pattern PATTERN_KEYWORDS = Pattern.compile(
+			"(?:[rub]|rb|br)?(\"\"\"|''')[\\s\\S]+?\\1/i");
+	private static final Pattern PATTERN_BUILTINS = Pattern.compile(
+			"(?:[rub]|rb|br)?(\"|')(?:\\\\.|(?!\\1)[^\\\\\\r\\n])*\\1/i");
+	private static final Pattern PATTERN_COMMENTS = Pattern.compile("((?:^|\\s)def[ \\t]+)[a-zA-Z_]\\w*(?=\\s*\\()/g");
+	private static final Pattern PATTERN_TRAILING_WHITE_SPACE = Pattern.compile("(\\bclass\\s+)\\w+/i");
+	private static final Pattern PATTERN_INSERT_UNIFORM = Pattern.compile("(^\\s*)@\\w+(?:\\.\\w+)*/");
+    private static final Pattern PATTERN_BUILTIN = Pattern.compile("\\b(__import__|abs|all|any|apply|ascii|basestring|bin|bool|buffer|bytearray|bytes|callable|chr|classmethod|cmp|coerce|compile|complex|delattr|dict|dir|divmod|enumerate|eval|execfile|file|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|intern|isinstance|issubclass|iter|len|list|locals|long|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|raw_input|reduce|reload|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unichr|unicode|vars|xrange|zip)\\b");
+    private static final Pattern PATTERN_BOOLEAN= Pattern.compile("\\b(True|False|None)\\b");
+    private static final Pattern PATTERN_NUM = Pattern.compile("(?:\\b(?=\\d)|\\B(?=\\.))(?:0[bo])?(?:(?:\\d|0x[\\da-f])[\\da-f]*\\.?\\d*|\\.\\d+)(?:e[+-]?\\d+)?j?\\b/i");
+    private static final Pattern PATTERN_OPER = Pattern.compile("[-+%=]=?|!=|\\*\\*?=?|\\/\\/?=?|<[<=>]?|>[=>]?|[&|^~]/");
+    private static final Pattern PATTERN_PUNCTUATION= Pattern.compile("[{}[\\];(),.:]");
+
 
     private final Handler updateHandler = new Handler();
     private final Runnable updateRunnable = new Runnable() {
@@ -83,6 +73,13 @@ public class RNEliceEditor extends ReactEditText{
     private int colorNumber;
     private int colorKeyword;
     private int colorBuiltin;
+    private int colorBuiltins;
+
+    private int colorBoolean;
+    private int colorNum;
+    private int colorOper;
+    private int colorPunctuation;
+
     private int colorComment;
     private int tabWidthInCharacters = 0;
     private int tabWidth = 0;
@@ -321,6 +318,21 @@ public class RNEliceEditor extends ReactEditText{
         colorComment = ContextCompat.getColor(
                 context,
                 R.color.syntax_comment);
+        colorBuiltins = ContextCompat.getColor(
+                context,
+                R.color.editor_text);
+        colorBoolean = ContextCompat.getColor(
+                context,
+                R.color.color_boolean);
+        colorNum = ContextCompat.getColor(
+                context,
+                R.color.color_num);
+        colorOper = ContextCompat.getColor(
+                context,
+                R.color.color_oper);
+        colorPunctuation = ContextCompat.getColor(
+                context,
+                R.color.color_punctuation);
     }
 
     private void cancelUpdate() {
@@ -378,7 +390,42 @@ public class RNEliceEditor extends ReactEditText{
                         m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
+            for (Matcher m = PATTERN_BUILTIN.matcher(e); m.find(); ) {
+                e.setSpan(
+                        new ForegroundColorSpan(colorBuiltins),
+                        m.start(),
+                        m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = PATTERN_BOOLEAN.matcher(e); m.find(); ) {
+                e.setSpan(
+                        new ForegroundColorSpan(colorBoolean),
+                        m.start(),
+                        m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
 
+            for (Matcher m = PATTERN_NUM.matcher(e); m.find(); ) {
+                e.setSpan(
+                        new ForegroundColorSpan(colorNum),
+                        m.start(),
+                        m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = PATTERN_OPER.matcher(e); m.find(); ) {
+                e.setSpan(
+                        new ForegroundColorSpan(colorOper),
+                        m.start(),
+                        m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = PATTERN_PUNCTUATION.matcher(e); m.find(); ) {
+                e.setSpan(
+                        new ForegroundColorSpan(colorPunctuation),
+                        m.start(),
+                        m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
             for (Matcher m = PATTERN_KEYWORDS.matcher(e); m.find(); ) {
                 e.setSpan(
                         new ForegroundColorSpan(colorKeyword),

@@ -25,4 +25,9 @@
     <color name="cube_face_text">#fff</color>
     <color name="editor_background">#666666</color>
 
+    <color name="color_boolean">#8fff</color>
+    <color name="color_num">#ffff</color>
+    <color name="color_oper">#fff</color>
+    <color name="color_punctuation">#666666</color>
+
 </resources>
