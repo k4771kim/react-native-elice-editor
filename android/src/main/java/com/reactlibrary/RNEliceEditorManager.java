@@ -10,6 +10,7 @@ import com.facebook.react.views.textinput.ReactEditText;
 import com.facebook.react.views.textinput.ReactTextInputManager;
 
 public class RNEliceEditorManager extends ReactTextInputManager {
+    boolean isInitiate = false;
     @Override
     public String getName() {
         return "RNEliceEditor";
@@ -23,6 +24,16 @@ public class RNEliceEditorManager extends ReactTextInputManager {
     @ReactProp(name = "value")
     public void setText(ReactEditText view, @Nullable String value) {
         view.setText(value);
+    }
+
+    @ReactProp(name = "defaultValue")
+    public void setDefaultValue(ReactEditText view, @Nullable String value) {
+        if(!isInitiate){
+            view.setText(value);
+            isInitiate = true;
+
+        }
+
     }
 
 }
