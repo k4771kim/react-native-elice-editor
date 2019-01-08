@@ -21,6 +21,7 @@ export default class extends TextInput {
       <TouchableWithoutFeedback
         onPress={() => {
           this.focus()
+          console.log(TextInput.props)
         }}
       />
     )
@@ -30,19 +31,26 @@ export default class extends TextInput {
     }
     const props = {
       ...TextInput.props,
-      ...this.props,
-      ref: this._setNativeRef
+      ...this.props
+    }
+
+    const _onChange = event => {
+      const text = event.nativeEvent.text
+      this.props.onChange && this.props.onChange(event)
+      this.props.onChangeText && this.props.onChangeText(text)
+      if (!this._inputRef) {
+        // calling `this.props.onChange` or `this.props.onChangeText`
+        // may clean up the input itself. Exits here.
+        return
+      }
+      this._lastNativeText = text
+      this.forceUpdate()
     }
 
     return cloneElement(
       wrapper,
       wrapper.props,
-      <RNEliceEditor
-        onFocus={() => {
-          console.log(this)
-        }}
-        {...props}
-      />
+      <RNEliceEditor onChange={this._onChange} {...props} />
     )
   }
 }
