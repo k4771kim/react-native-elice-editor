@@ -22,7 +22,6 @@ export default class extends TextInput implements TextInputProps {
     end: 0
   }
   focus = () => {
-    console.log(this)
     this.textInput.focus()
   }
   onSelectionChange (event) {
