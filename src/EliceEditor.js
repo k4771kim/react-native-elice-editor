@@ -29,6 +29,7 @@ export default class EliceEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      text: '',
       formattedText: ''
     }
     this._lastNativeSelection = {
@@ -40,7 +41,7 @@ export default class EliceEditor extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.defaultValue !== nextProps.defaultValue) {
-      this.initiate(this.props.defaultValue)
+      this.initiate(nextProps.defaultValue)
       this.init = true
     }
   }
@@ -79,7 +80,7 @@ export default class EliceEditor extends React.Component {
       formattedText.push(errorText)
     }
 
-    this.setState({ formattedText })
+    this.setState({ text: inputText, formattedText })
   }
   onSelectionChange (event) {
     this.props.onSelectionChangeEvent &&
@@ -119,7 +120,7 @@ export default class EliceEditor extends React.Component {
       )
       formattedText.push(errorText)
     }
-    this.setState({ formattedText })
+    this.setState({ text: inputText, formattedText })
 
     this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
   }
@@ -148,6 +149,7 @@ export default class EliceEditor extends React.Component {
             onSelectionChange={this.onSelectionChange.bind(this)}
             onChangeText={this.handleChangeText}
             autoCapitalize='none'
+            value={this.state.text}
           />
         </View>
       </View>
