@@ -19,6 +19,7 @@ const styles = {
   text: {
     position: 'absolute',
     top: 0,
+    width: '100%',
     color: 'transparent'
   },
   mention: {
@@ -34,24 +35,15 @@ export default class EliceEditor extends React.Component {
       formattedText: ''
     }
   }
-  // handleChangeText = inputText => {
-  //   const words = inputText.split(' ')
-  //   const formattedText = []
-  //   words.forEach(word => {
-  //     for (var key in Python) {
-  //       if (!word.match(Python[key])) {
-  //         console.log(Python[key])
-  //         const mention = <Text style={{ color: Color[key] }}>{word}</Text>
-  //         return formattedText.push(mention, ' ')
-  //       }
-  //     }
-  //     const mention = <Text style={styles.mention}>{word}</Text>
-  //     return formattedText.push(mention, ' ')
-  //   })
-
-  //   this.setState({ inputText, formattedText })
-  // }
-
+  _lastNativeSelection = {
+    start: 0,
+    end: 0
+  }
+  onSelectionChange (event) {
+    this.props.onSelectionChangeEvent &&
+      this.props.onSelectionChangeEvent(event)
+    this._lastNativeSelection = event.nativeEvent.selection
+  }
   handleChangeText = inputText => {
     let lastLoc = 0
     const formattedText = []
@@ -63,6 +55,11 @@ export default class EliceEditor extends React.Component {
     })
     tokenizedText.forEach(object => {
       if (lastLoc !== object.loc.start.column) {
+        const errorText = (
+          <Text style={{ color: Colors.Error }}>
+            {inputText.slice(lastLoc, object.loc.start.column)}
+          </Text>
+        )
         formattedText.push(errorText)
       }
       const mention = (
@@ -74,7 +71,6 @@ export default class EliceEditor extends React.Component {
     })
 
     if (lastLoc !== inputText.length) {
-      // error range
       const errorText = (
         <Text style={{ color: Colors.Error }}>
           {inputText.slice(lastLoc, inputText.length)}
@@ -84,7 +80,7 @@ export default class EliceEditor extends React.Component {
     }
     this.setState({ inputText, formattedText })
 
-    this.props.onChangeText && this.props.onChangeText(inputText)
+    this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
   }
 
   render () {
@@ -102,8 +98,13 @@ export default class EliceEditor extends React.Component {
           <TextInput
             {...this.props}
             multiline
-            style={[styles.input, this.props.style]}
+            style={[
+              styles.input,
+              this.props.style,
+              { backgroundColor: 'transparent' }
+            ]}
             value={this.state.inputText}
+            onSelectionChange={this.onSelectionChange.bind(this)}
             onChangeText={this.handleChangeText}
             autoCapitalize='none'
           />
