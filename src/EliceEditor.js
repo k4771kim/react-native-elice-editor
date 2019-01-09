@@ -65,7 +65,6 @@ export default class EliceEditor extends React.Component {
       const mention = (
         <Text style={{ color: Colors[object.type] }}>{object.value}</Text>
       )
-
       formattedText.push(mention)
       lastLoc = object.loc.end.column
     })
@@ -98,6 +97,7 @@ export default class EliceEditor extends React.Component {
           <TextInput
             {...this.props}
             multiline
+            ref={textInput => (this.textInput = textInput)}
             style={[
               styles.input,
               this.props.style,
