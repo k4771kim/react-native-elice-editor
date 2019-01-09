@@ -1,11 +1,19 @@
+//
+//  RNEliceEditor.h
+//  RNEliceEditor
+//
+//  Created by Kim BoGyun on 08/01/2019.
+//  Copyright © 2019 Facebook. All rights reserved.
+//
 
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
-#import <React/RCTBridgeModule.h>
-#endif
+#ifndef RNEliceEditor_h
+#define RNEliceEditor_h
 
-@interface RNEliceEditor : NSObject <RCTBridgeModule>
+
+#endif /* RNEliceEditor_h */
+
+#import <UIKit/UIKit.h>
+#import "RCTMultilineTextInputView.h"
+@interface RNEliceEditor : RCTMultilineTextInputView
 
 @end
-  

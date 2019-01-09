@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNEliceEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNEliceEditor.m */; };
+		FCB84E0421E49FFB00CA313B /* RNEliceEditorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB84E0321E49FFB00CA313B /* RNEliceEditorManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,8 +25,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNEliceEditor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNEliceEditor.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E7B5881CC2AC0600A0062D /* RNEliceEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNEliceEditor.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNEliceEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNEliceEditor.m; sourceTree = "<group>"; };
+		FCB84E0321E49FFB00CA313B /* RNEliceEditorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNEliceEditorManager.m; sourceTree = "<group>"; };
+		FCB84E0521E4A0D200CA313B /* RNEliceEditorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNEliceEditorManager.h; sourceTree = "<group>"; };
+		FCB84E1521E4A1A100CA313B /* RNEliceEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNEliceEditor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +53,9 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				B3E7B5881CC2AC0600A0062D /* RNEliceEditor.h */,
+				FCB84E1521E4A1A100CA313B /* RNEliceEditor.h */,
+				FCB84E0321E49FFB00CA313B /* RNEliceEditorManager.m */,
+				FCB84E0521E4A0D200CA313B /* RNEliceEditorManager.h */,
 				B3E7B5891CC2AC0600A0062D /* RNEliceEditor.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
@@ -113,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3E7B58A1CC2AC0600A0062D /* RNEliceEditor.m in Sources */,
+				FCB84E0421E49FFB00CA313B /* RNEliceEditorManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +162,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../react-native/Libraries/\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -193,6 +200,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../react-native/Libraries/\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -204,7 +212,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
+					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
