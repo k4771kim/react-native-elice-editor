@@ -56,10 +56,10 @@ export default class EliceEditor extends React.Component {
       comment: true
     })
     tokenizedText.forEach(object => {
-      if (lastLoc !== object.loc.start.column) {
+      if (lastLoc !== object.range[0]) {
         const errorText = (
           <Text style={{ color: Colors.Error }}>
-            {inputText.slice(lastLoc, object.loc.start.column)}
+            {inputText.slice(lastLoc, object.range[0])}
           </Text>
         )
         formattedText.push(errorText)
@@ -68,7 +68,7 @@ export default class EliceEditor extends React.Component {
         <Text style={{ color: Colors[object.type] }}>{object.value}</Text>
       )
       formattedText.push(mention)
-      lastLoc = object.loc.end.column
+      lastLoc = object.range[1]
     })
 
     if (lastLoc !== inputText.length) {
@@ -96,11 +96,12 @@ export default class EliceEditor extends React.Component {
       loc: true,
       comment: true
     })
+    console.log(tokenizedText)
     tokenizedText.forEach(object => {
-      if (lastLoc !== object.loc.start.column) {
+      if (lastLoc !== object.range[0]) {
         const errorText = (
           <Text style={{ color: Colors.Error }}>
-            {inputText.slice(lastLoc, object.loc.start.column)}
+            {inputText.slice(lastLoc, object.range[0])}
           </Text>
         )
         formattedText.push(errorText)
@@ -109,7 +110,7 @@ export default class EliceEditor extends React.Component {
         <Text style={{ color: Colors[object.type] }}>{object.value}</Text>
       )
       formattedText.push(mention)
-      lastLoc = object.loc.end.column
+      lastLoc = object.range[1]
     })
 
     if (lastLoc !== inputText.length) {
