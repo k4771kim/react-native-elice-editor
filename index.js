@@ -8,8 +8,10 @@ import {
   TextInputProps
 } from 'react-native'
 import PropTypes from 'prop-types'
+import EliceEditor from './src/EliceEditor'
 const RNEliceEditor = requireNativeComponent('RNEliceEditor')
-export default class extends TextInput implements TextInputProps {
+
+exports.RNEliceEditor = class extends TextInput implements TextInputProps {
   static propTypes = {
     ...TextInput.propTypes
   }
@@ -74,3 +76,5 @@ export default class extends TextInput implements TextInputProps {
     )
   }
 }
+
+exports.EliceEditor = EliceEditor
