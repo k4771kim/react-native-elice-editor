@@ -1,23 +1,46 @@
 import React from 'react'
 import { TextInput } from 'react-native'
+import Color from './Color'
+import Python from './Language/Python'
 const styles = {
   input: {
-    fontSize: 18,
+    // fontSize: 18,
     width: '100%',
-    lineHeight: 20,
     color: 'transparent'
   },
-  text: {
-    fontSize: 18,
+  inputWrapper: {
     position: 'absolute',
     top: 0,
-    lineHeight: 20,
-
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'gray'
+  },
+  text: {
+    // fontSize: 18,
+    position: 'absolute',
+    top: 0,
     color: 'transparent'
   }
 }
 
 export default class EliceEditor extends React.Component {
+  handleChangeText = inputText => {
+    const words = inputText.split(' ')
+    const formattedText = []
+    words.forEach(word => {
+      for (var key in Python) {
+        if (!word.match(Python[key])) {
+          const mention = <Text style={{ color: Color[key] }}>{word}</Text>
+          return formattedText.push(mention, ' ')
+        }
+      }
+      const mention = <Text style={styles.mention}>{word}</Text>
+      return formattedText.push(mention, ' ')
+    })
+
+    this.setState({ inputText, formattedText })
+  }
+
   render () {
     return (
       <View>
