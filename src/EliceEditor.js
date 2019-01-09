@@ -94,7 +94,7 @@ export default class EliceEditor extends React.Component {
           autoCapitalize='none'
           editable={false}
           multiline
-          style={styles.text}
+          style={[styles.text, this.props.style]}
         >
           {this.state.formattedText}
         </TextInput>
@@ -102,7 +102,7 @@ export default class EliceEditor extends React.Component {
           <TextInput
             {...this.props}
             multiline
-            style={styles.input}
+            style={[styles.input, this.props.style]}
             value={this.state.inputText}
             onChangeText={this.handleChangeText}
             autoCapitalize='none'

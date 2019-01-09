@@ -78,3 +78,5 @@ exports.RNEliceEditor = class extends TextInput implements TextInputProps {
 }
 
 exports.EliceEditor = EliceEditor
+
+export default EliceEditor
