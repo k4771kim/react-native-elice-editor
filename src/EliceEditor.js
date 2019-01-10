@@ -19,11 +19,8 @@ const styles = {
     width: '100%'
   },
   text: {
-    position: 'absolute',
-    top: 0,
     width: '100%',
-    color: 'white',
-    letterSpacing: 1
+    color: 'white'
   },
   mention: {
     color: 'white'
@@ -53,7 +50,6 @@ export default class EliceEditor extends React.Component {
   }
 
   initiate (inputText) {
-    console.log(inputText)
     let highlightValue = hljs.highlight(this.state.language, inputText).value
     const formattedText = parse(highlightValue)
     this.setState({ text: inputText, formattedText })
@@ -75,33 +71,14 @@ export default class EliceEditor extends React.Component {
       <View style={{ flex: 1 }}>
         <TextInput
           autoCapitalize='none'
-          editable={false}
           multiline
-          selection={this._lastNativeSelection}
-          onSelectionChange={() => {
-            this.forceUpdate()
-          }}
+          ref={textInput => (this.textInput = textInput)}
+          onChangeText={this.handleChangeText.bind(this)}
+          onSelectionChange={this.onSelectionChange.bind(this)}
           style={[styles.text, this.props.style]}
         >
           {this.state.formattedText}
         </TextInput>
-
-        <View style={styles.inputWrapper}>
-          <TextInput
-            {...this.props}
-            multiline
-            ref={textInput => (this.textInput = textInput)}
-            style={[
-              styles.input,
-              this.props.style,
-              { backgroundColor: 'transparent' }
-            ]}
-            onSelectionChange={this.onSelectionChange.bind(this)}
-            onChangeText={this.handleChangeText.bind(this)}
-            autoCapitalize='none'
-            value={this.state.text}
-          />
-        </View>
       </View>
     )
   }
