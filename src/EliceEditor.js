@@ -72,11 +72,15 @@ export default class EliceEditor extends React.Component {
 
   render () {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <TextInput
           autoCapitalize='none'
           editable={false}
           multiline
+          selection={this._lastNativeSelection}
+          onSelectionChange={() => {
+            this.forceUpdate()
+          }}
           style={[styles.text, this.props.style]}
         >
           {this.state.formattedText}
