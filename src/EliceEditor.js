@@ -35,7 +35,8 @@ export default class EliceEditor extends React.Component {
     super(props)
     this.state = {
       text: '',
-      formattedText: ''
+      formattedText: '',
+      language: 'javascript'
     }
     this._lastNativeSelection = {
       start: 0,
@@ -46,11 +47,14 @@ export default class EliceEditor extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.initiate(nextProps.defaultValue)
+    if (nextProps.language) {
+      this.setState({ language: nextProps.language })
+    }
   }
 
   initiate (inputText) {
     console.log(inputText)
-    let highlightValue = hljs.highlight('javascript', inputText).value
+    let highlightValue = hljs.highlight(this.state.language, inputText).value
     const formattedText = parse(highlightValue)
     this.setState({ text: inputText, formattedText })
   }
@@ -60,7 +64,7 @@ export default class EliceEditor extends React.Component {
     this._lastNativeSelection = event.nativeEvent.selection
   }
   handleChangeText = inputText => {
-    let highlightValue = hljs.highlight('javascript', inputText).value
+    let highlightValue = hljs.highlight(this.state.language, inputText).value
     const formattedText = parse(highlightValue)
     this.setState({ text: inputText, formattedText })
     this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
