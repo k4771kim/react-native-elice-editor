@@ -3,13 +3,8 @@ import { Text, TextInput, View } from 'react-native'
 import Python from './Language/Python'
 import { Colors } from './EsprimaHelper'
 import hljs from 'highlight.js'
-import {
-  getParentsTagsRecursively,
-  getClosestNodeParentByTag
-} from 'react-native-render-html/src/HTMLUtils'
 import tagsStyles from './Styles/a11y-dark.styl'
 import { parse } from './HighlightJsHelperModule'
-import HTML from 'react-native-render-html'
 
 var esprima = require('esprima')
 const styles = {
