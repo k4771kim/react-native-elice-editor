@@ -2,12 +2,21 @@ import React from 'react'
 import { Text, TextInput, View } from 'react-native'
 import Python from './Language/Python'
 import { Colors } from './EsprimaHelper'
-var esprima = require('esprima')
+import hljs from 'highlight.js'
+import {
+  getParentsTagsRecursively,
+  getClosestNodeParentByTag
+} from 'react-native-render-html/src/HTMLUtils'
+import tagsStyles from './Styles/a11y-dark.styl'
+import { parse } from './HighlightJsHelperModule'
+import HTML from 'react-native-render-html'
 
+var esprima = require('esprima')
 const styles = {
   input: {
     width: '100%',
-    color: 'transparent'
+    color: 'transparent',
+    letterSpacing: 1
   },
   inputWrapper: {
     position: 'absolute',
@@ -18,7 +27,8 @@ const styles = {
     position: 'absolute',
     top: 0,
     width: '100%',
-    color: 'transparent'
+    color: 'white',
+    letterSpacing: 1
   },
   mention: {
     color: 'white'
@@ -40,46 +50,13 @@ export default class EliceEditor extends React.Component {
   init = false
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.defaultValue !== nextProps.defaultValue) {
-      this.initiate(nextProps.defaultValue)
-      this.init = true
-    }
+    this.initiate(nextProps.defaultValue)
   }
 
   initiate (inputText) {
-    let lastLoc = 0
-    const formattedText = []
-    let tokenizedText = esprima.tokenize(inputText, {
-      tolerant: true,
-      range: true,
-      loc: true,
-      comment: true
-    })
-    tokenizedText.forEach(object => {
-      if (lastLoc !== object.range[0]) {
-        const errorText = (
-          <Text style={{ color: Colors.Error }}>
-            {inputText.slice(lastLoc, object.range[0])}
-          </Text>
-        )
-        formattedText.push(errorText)
-      }
-      const mention = (
-        <Text style={{ color: Colors[object.type] }}>{object.value}</Text>
-      )
-      formattedText.push(mention)
-      lastLoc = object.range[1]
-    })
-
-    if (lastLoc !== inputText.length) {
-      const errorText = (
-        <Text style={{ color: Colors.Error }}>
-          {inputText.slice(lastLoc, inputText.length)}
-        </Text>
-      )
-      formattedText.push(errorText)
-    }
-
+    console.log(inputText)
+    let highlightValue = hljs.highlight('javascript', inputText).value
+    const formattedText = parse(highlightValue)
     this.setState({ text: inputText, formattedText })
   }
   onSelectionChange (event) {
@@ -88,41 +65,9 @@ export default class EliceEditor extends React.Component {
     this._lastNativeSelection = event.nativeEvent.selection
   }
   handleChangeText = inputText => {
-    let lastLoc = 0
-    const formattedText = []
-    let tokenizedText = esprima.tokenize(inputText, {
-      tolerant: true,
-      range: true,
-      loc: true,
-      comment: true
-    })
-    console.log(tokenizedText)
-    tokenizedText.forEach(object => {
-      if (lastLoc !== object.range[0]) {
-        const errorText = (
-          <Text style={{ color: Colors.Error }}>
-            {inputText.slice(lastLoc, object.range[0])}
-          </Text>
-        )
-        formattedText.push(errorText)
-      }
-      const mention = (
-        <Text style={{ color: Colors[object.type] }}>{object.value}</Text>
-      )
-      formattedText.push(mention)
-      lastLoc = object.range[1]
-    })
-
-    if (lastLoc !== inputText.length) {
-      const errorText = (
-        <Text style={{ color: Colors.Error }}>
-          {inputText.slice(lastLoc, inputText.length)}
-        </Text>
-      )
-      formattedText.push(errorText)
-    }
+    let highlightValue = hljs.highlight('javascript', inputText).value
+    const formattedText = parse(highlightValue)
     this.setState({ text: inputText, formattedText })
-
     this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
   }
 
@@ -137,6 +82,7 @@ export default class EliceEditor extends React.Component {
         >
           {this.state.formattedText}
         </TextInput>
+
         <View style={styles.inputWrapper}>
           <TextInput
             {...this.props}
@@ -148,7 +94,7 @@ export default class EliceEditor extends React.Component {
               { backgroundColor: 'transparent' }
             ]}
             onSelectionChange={this.onSelectionChange.bind(this)}
-            onChangeText={this.handleChangeText}
+            onChangeText={this.handleChangeText.bind(this)}
             autoCapitalize='none'
             value={this.state.text}
           />
