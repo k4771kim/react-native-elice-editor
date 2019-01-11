@@ -3,8 +3,41 @@ import React from 'react'
 import { Text } from 'react-native'
 import styles from './Styles/a11y-dark.styl'
 const SPAN_REGEX = /<\s*span class="(.*?)">(.*?)<\s*\/\s*span>/
+// const SPAN_REGEX = /<span class="(.*)">{1,2}(.*|\n*)<\/span>{1,2} /g
+exports.parseAST = inputAST => {
+  let key = 0
+  let returnData = []
+  const renderParsedText = (c, v) => {
+    return (
+      <Text key={`key${key++}`} style={styles[c]}>
+        {v}
+      </Text>
+    )
+  }
+  const parseChildren = (children, stackedClass) => {
+    children.forEach(child => {
+      if (child.children?.length > 0) {
+        let returnStackedClass = stackedClass
+        stackedClass.push(child.attrs.class)
+        parseChildren(child.children, returnStackedClass)
+      } else {
+        parseObject(child, stackedClass)
+      }
+    })
+  }
+  const parseObject = (obj, stackedClass) => {
+    console.log(stackedClass)
+    let className
 
-exports.parse = inputText => {
+    className = stackedClass[stackedClass.length - 1]
+    console.log(className, obj.content)
+    returnData.push(renderParsedText(className, obj.content))
+  }
+  parseChildren(inputAST, [])
+
+  return returnData
+}
+exports.parseText = inputText => {
   let key = 0
   const renderParsedText = (c, v) => {
     return (
@@ -23,6 +56,7 @@ exports.parse = inputText => {
   textData = inputText
 
   while ((matchedRegex = SPAN_REGEX.exec(textData)) !== null) {
+    console.log(matchedRegex)
     if (matchedRegex.index > 0) {
       returnData.push(textData.slice(0, matchedRegex.index))
     }

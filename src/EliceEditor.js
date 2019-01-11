@@ -4,8 +4,10 @@ import Python from './Language/Python'
 import { Colors } from './EsprimaHelper'
 import hljs from 'highlight.js'
 import tagsStyles from './Styles/a11y-dark.styl'
-import { parse } from './HighlightJsHelperModule'
-
+import { parseText, parseAST } from './HighlightJsHelperModule'
+import HTML from 'html-parse-stringify'
+import { parse, stringify } from 'html-parse-stringify'
+var hljsConfigure = { classPrefix: '' }
 var esprima = require('esprima')
 const styles = {
   input: {
@@ -50,8 +52,11 @@ export default class EliceEditor extends React.Component {
   }
 
   initiate (inputText) {
-    let highlightValue = hljs.highlight(this.state.language, inputText).value
-    const formattedText = parse(highlightValue)
+    // hljs.configure(hljsConfigure)
+    let highlightValue
+    highlightValue = hljs.highlight(this.state.language, inputText, true).value
+
+    const formattedText = parseText(highlightValue)
     this.setState({ text: inputText, formattedText })
   }
   onSelectionChange (event) {
@@ -60,9 +65,24 @@ export default class EliceEditor extends React.Component {
     this._lastNativeSelection = event.nativeEvent.selection
   }
   handleChangeText = inputText => {
-    let highlightValue = hljs.highlight(this.state.language, inputText).value
-    const formattedText = parse(highlightValue)
+    const replaceText = text => {
+      let returnText = text
+      returnText = returnText.replace(/&lt;/g, '<')
+      returnText = returnText.replace(/&gt;/g, '>')
+      returnText = returnText.replace(/ /g, 'ㅤ')
+      returnText = returnText.replace(/	/g, 'ㅤ')
+      returnText = returnText.replace(/>\n</g, '>' + 'ㅤ' + '\n<')
+      return returnText
+    }
+    let highlightValue
+    highlightValue = hljs.highlight(this.state.language, inputText, true).value
+    highlightValue = replaceText(highlightValue)
+    var ast = parse('<span class = "hljs-text" >' + highlightValue + '</span>')
+
+    const formattedText = parseAST(ast)
+
     this.setState({ text: inputText, formattedText })
+
     this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
   }
 
@@ -70,7 +90,8 @@ export default class EliceEditor extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
-        {...this.props}
+          // {...this.props}
+
           autoCapitalize='none'
           multiline
           ref={textInput => (this.textInput = textInput)}
