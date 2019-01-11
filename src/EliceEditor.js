@@ -1,14 +1,8 @@
 import React from 'react'
 import { Text, TextInput, View } from 'react-native'
-import Python from './Language/Python'
-import { Colors } from './EsprimaHelper'
 import hljs from 'highlight.js'
 import tagsStyles from './Styles/a11y-dark.styl'
-import { parseText, parseAST } from './HighlightJsHelperModule'
-import HTML from 'html-parse-stringify'
-import { parse, stringify } from 'html-parse-stringify'
-var hljsConfigure = { classPrefix: '' }
-var esprima = require('esprima')
+import HtmlText from 'react-native-htmltotext'
 const styles = {
   input: {
     width: '100%',
@@ -52,11 +46,9 @@ export default class EliceEditor extends React.Component {
   }
 
   initiate (inputText) {
-    // hljs.configure(hljsConfigure)
     let highlightValue
     highlightValue = hljs.highlight(this.state.language, inputText, true).value
-
-    const formattedText = parseText(highlightValue)
+    const formattedText = highlightValue
     this.setState({ text: inputText, formattedText })
   }
   onSelectionChange (event) {
@@ -65,24 +57,10 @@ export default class EliceEditor extends React.Component {
     this._lastNativeSelection = event.nativeEvent.selection
   }
   handleChangeText = inputText => {
-    const replaceText = text => {
-      let returnText = text
-      returnText = returnText.replace(/&lt;/g, '<')
-      returnText = returnText.replace(/&gt;/g, '>')
-      returnText = returnText.replace(/ /g, 'ㅤ')
-      returnText = returnText.replace(/	/g, 'ㅤ')
-      returnText = returnText.replace(/>\n</g, '>' + 'ㅤ' + '\n<')
-      return returnText
-    }
     let highlightValue
     highlightValue = hljs.highlight(this.state.language, inputText, true).value
-    highlightValue = replaceText(highlightValue)
-    var ast = parse('<span class = "hljs-text" >' + highlightValue + '</span>')
-
-    const formattedText = parseAST(ast)
-
+    const formattedText = highlightValue
     this.setState({ text: inputText, formattedText })
-
     this.props.onChangeTextEvent && this.props.onChangeTextEvent(inputText)
   }
 
@@ -91,7 +69,7 @@ export default class EliceEditor extends React.Component {
       <View style={{ flex: 1 }}>
         <TextInput
           // {...this.props}
-
+          inputAccessoryViewID={this.props.inputAccessoryViewID}
           autoCapitalize='none'
           multiline
           ref={textInput => (this.textInput = textInput)}
@@ -99,7 +77,7 @@ export default class EliceEditor extends React.Component {
           onSelectionChange={this.onSelectionChange.bind(this)}
           style={[styles.text, this.props.style]}
         >
-          {this.state.formattedText}
+          <HtmlText style={styles.welcome} html={this.state.formattedText} />
         </TextInput>
       </View>
     )

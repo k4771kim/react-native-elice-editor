@@ -36,6 +36,10 @@
     "react-native": "^0.57.7",
     "react-native-windows": "0.41.0-rc.1"
   },
+  "dependencies": {
+    "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
+    "highlight.js": "^9.13.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
