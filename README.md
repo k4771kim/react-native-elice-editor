@@ -58,3 +58,8 @@ import RNEliceEditor from "react-native-elice-editor";
 // TODO: What to do with the module?
 RNEliceEditor;
 ```
+
+todo
+
+- set styles
+- set theme
