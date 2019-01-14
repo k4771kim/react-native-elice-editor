@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TextInput, View } from 'react-native'
 import hljs from 'highlight.js'
-import tagsStyles from './Styles/a11y-dark.styl'
+import tagsStyles from './Styles/elice.styl'
 import HtmlText from 'react-native-htmltotext'
 const styles = {
   input: {
