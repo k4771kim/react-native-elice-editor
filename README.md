@@ -8,9 +8,9 @@
 
 ```javascript
 import RNEliceEditor from "react-native-elice-editor";
+```
 
-todo
+##todo
 
 - set styles
 - set theme
-```
