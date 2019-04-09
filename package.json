@@ -33,12 +33,13 @@
   "main": "index.js",
   "name": "react-native-elice-editor",
   "peerDependencies": {
-    "react-native": "^0.57.7",
-    "react-native-windows": "0.41.0-rc.1"
+    "react-native": "^0.59.3"
   },
   "dependencies": {
     "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
-    "highlight.js": "^9.13.1"
+    "highlight.js": "^9.13.1",
+    "react-native-stylus-transformer": "^1.1.2",
+    "stylus": "^0.54.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
