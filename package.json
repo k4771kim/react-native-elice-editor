@@ -36,8 +36,9 @@
     "react-native": "^0.59.3"
   },
   "dependencies": {
-    "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
     "highlight.js": "^9.13.1",
+    "parse5": "^5.1.0",
+    "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
     "react-native-stylus-transformer": "^1.1.2",
     "stylus": "^0.54.5"
   },
