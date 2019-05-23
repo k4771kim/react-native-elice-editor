@@ -68,6 +68,7 @@ export default class EliceEditor extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
+          {...this.props}
           inputAccessoryViewID={this.props.inputAccessoryViewID}
           autoCapitalize="none"
           multiline
