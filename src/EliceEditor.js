@@ -68,6 +68,7 @@ export default class EliceEditor extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
+        disableFullscreenUI
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           inputAccessoryViewID={this.props.inputAccessoryViewID}
