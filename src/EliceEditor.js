@@ -17,7 +17,8 @@ const styles = {
   },
   text: {
     width: "100%",
-    color: "white"
+    color: "white",
+    height: "100%"
 
     // maxHeight: 200
   },
@@ -70,6 +71,9 @@ export default class EliceEditor extends React.Component {
   render() {
     return (
       <InputScrollView
+        contentContainerStyle={{
+          flex: 1
+        }}
         keyboardAvoidingViewProps={{
           enabled: false
         }}

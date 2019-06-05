@@ -39,7 +39,7 @@
     "highlight.js": "^9.13.1",
     "parse5": "^5.1.0",
     "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
-    "react-native-input-scroll-view": "^1.9.3",
+    "react-native-input-scroll-view": "git://github.com/k4771kim/react-native-input-scroll-view.git",
     "react-native-stylus-transformer": "^1.1.2",
     "stylus": "^0.54.5"
   },
