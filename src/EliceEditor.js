@@ -1,9 +1,9 @@
 import React from "react";
-import InputScrollView from "react-native-input-scroll-view";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View, ScrollView } from "react-native";
 import hljs from "highlight.js";
 import tagsStyles from "./Styles/elice.styl";
 import HtmlText from "react-native-htmltotext";
+import InputScrollView from "react-native-input-scroll-view";
 const styles = {
   input: {
     width: "100%",
@@ -18,6 +18,8 @@ const styles = {
   text: {
     width: "100%",
     color: "white"
+
+    // maxHeight: 200
   },
   mention: {
     color: "white"
@@ -67,7 +69,11 @@ export default class EliceEditor extends React.Component {
 
   render() {
     return (
-      <InputScrollView style={{ flex: 1 }}>
+      <InputScrollView
+        keyboardAvoidingViewProps={{
+          enabled: false
+        }}
+      >
         <TextInput
           disableFullscreenUI
           onFocus={this.props.onFocus}
@@ -78,7 +84,13 @@ export default class EliceEditor extends React.Component {
           ref={textInput => (this.textInput = textInput)}
           onChangeText={this.handleChangeText.bind(this)}
           onSelectionChange={this.onSelectionChange.bind(this)}
-          style={[styles.text, this.props.style]}
+          style={[
+            styles.text,
+            this.props.style,
+            {
+              maxHeight: this.props.height - this.props.inputMarginBottom
+            }
+          ]}
         >
           <HtmlText style={styles.welcome} html={this.state.formattedText} />
         </TextInput>
