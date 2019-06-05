@@ -1,4 +1,5 @@
 import React from "react";
+import InputScrollView from "react-native-input-scroll-view";
 import { Text, TextInput, View } from "react-native";
 import hljs from "highlight.js";
 import tagsStyles from "./Styles/elice.styl";
@@ -66,9 +67,9 @@ export default class EliceEditor extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <InputScrollView style={{ flex: 1 }}>
         <TextInput
-        disableFullscreenUI
+          disableFullscreenUI
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           inputAccessoryViewID={this.props.inputAccessoryViewID}
@@ -81,7 +82,7 @@ export default class EliceEditor extends React.Component {
         >
           <HtmlText style={styles.welcome} html={this.state.formattedText} />
         </TextInput>
-      </View>
+      </InputScrollView>
     );
   }
 }
