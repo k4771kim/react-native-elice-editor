@@ -36,7 +36,7 @@
     "react-native": "^0.59.3"
   },
   "dependencies": {
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.1.2",
     "parse5": "^5.1.0",
     "react-native-htmltotext": "git://github.com/k4771kim/react-native-htmltotext.git",
     "react-native-input-scroll-view": "git://github.com/k4771kim/react-native-input-scroll-view.git",
